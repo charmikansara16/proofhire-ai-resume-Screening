@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #080c14;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.08) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+}
+
+/* Custom Glassmorphism Cards */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card-interactive {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-interactive:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -10px rgba(99, 102, 241, 0.25);
+}
+
+/* Custom Glow Effects */
+.glow-primary {
+  box-shadow: 0 0 20px -3px rgba(99, 102, 241, 0.5);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px -3px rgba(168, 85, 247, 0.5);
+}
+
+/* Animated Gradient Text */
+.text-gradient {
+  background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}

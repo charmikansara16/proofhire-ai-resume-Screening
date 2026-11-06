@@ -1,0 +1,12 @@
+{
+  "name": "proofhire",
+  "version": "1.0.0",
+  "description": "ProofHire — AI-Powered Resume Intelligence & Evidence-Based Candidate Screening Platform",
+  "private": true,
+  "scripts": {
+    "dev:backend": "cd backend && venv/bin/uvicorn app.main:app --reload --port 8000",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "test:backend": "cd backend && PYTHONPATH=. venv/bin/pytest -v tests"
+  }
+}
