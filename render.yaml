@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: proofhire-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && alembic upgrade head
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: proofhire-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 1440
+      - key: CORS_ORIGINS
+        value: "http://localhost:5173,https://*.vercel.app"
+      - key: STORAGE_DIR
+        value: /var/data/proofhire/resumes
+      - key: MAX_UPLOAD_SIZE_MB
+        value: 10
+    disk:
+      name: proofhire-storage
+      mountPath: /var/data/proofhire/resumes
+      sizeGB: 1
+
+databases:
+  - name: proofhire-db
+    databaseName: proofhire
+    user: proofhire_user
+    plan: free
