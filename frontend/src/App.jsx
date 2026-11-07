@@ -8,21 +8,21 @@ import {
 } from 'lucide-react';
 
 // ============================================================================
-// DESIGN SYSTEM STYLES (Warm Paper #F6F4F0, Ink #111111, Coral #EE7564)
+// DESIGN SYSTEM STYLES (Soft Slate & Warm Paper, High Contrast Typography)
 // ============================================================================
 const FONT_AND_THEME_CSS = `
-  .font-display { font-family: 'DM Serif Display', Georgia, serif; line-height: 0.95; letter-spacing: -0.02em; }
+  .font-display { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; letter-spacing: -0.02em; }
   .font-sans { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
   .font-mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
   .font-serif { font-family: 'Source Serif 4', Georgia, serif; line-height: 1.6; }
 
   /* Marker Yellow Evidence Highlight Block */
   .marker-highlight {
-    background-color: rgba(255, 229, 138, 0.7);
-    color: #111111;
-    border-radius: 2px;
-    padding: 0px 4px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    background-color: rgba(254, 240, 138, 0.85);
+    color: #0F172A;
+    border-radius: 3px;
+    padding: 1px 5px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
   }
 
   @keyframes pulseCoral {
@@ -36,16 +36,10 @@ const FONT_AND_THEME_CSS = `
 
   /* Redaction Hatching for Blind Mode (Recruiter Only) */
   .redacted-bar {
-    background: repeating-linear-gradient(
-      45deg,
-      #2B2825,
-      #2B2825 6px,
-      #151413 6px,
-      #151413 12px
-    );
+    background: #CBD5E1;
     color: transparent !important;
     user-select: none;
-    border-radius: 3px;
+    border-radius: 4px;
     display: inline-block;
   }
 `;
@@ -173,71 +167,6 @@ const PREDEFINED_GENERAL_ROLES = [
       { id: "fs-4", title: "RESTful API Integration & Web Security", weight: 4, must_have: true, techKeywords: ["rest api", "jwt", "auth", "security", "json"] },
       { id: "fs-5", title: "Git, DevOps Basics & Cloud Deployment", weight: 3, must_have: false, techKeywords: ["git", "docker", "aws", "gcp", "ci/cd", "deployment"] }
     ]
-  },
-  {
-    id: "role-business-analyst",
-    title: "Business Analyst",
-    organization: "General Role Standard Profile",
-    targetYears: 2,
-    requirements: [
-      { id: "ba-1", title: "Requirements Gathering & Business Process Modeling", weight: 5, must_have: true, techKeywords: ["requirements", "business process", "use cases", "user stories", "bpmn"] },
-      { id: "ba-2", title: "Data Analysis & SQL Querying", weight: 5, must_have: true, techKeywords: ["sql", "excel", "data analysis", "reporting", "queries"] },
-      { id: "ba-3", title: "Stakeholder Management & Agile Documentation", weight: 4, must_have: true, techKeywords: ["stakeholder", "agile", "jira", "confluence", "documentation", "sprints"] },
-      { id: "ba-4", title: "Data Visualization & Dashboards (Tableau / PowerBI)", weight: 4, must_have: true, techKeywords: ["tableau", "power bi", "dashboards", "visualization"] },
-      { id: "ba-5", title: "Financial / Business Metrics & KPI Tracking", weight: 3, must_have: false, techKeywords: ["kpi", "metrics", "roi", "cost benefit", "financial modeling"] }
-    ]
-  },
-  {
-    id: "role-cloud-engineer",
-    title: "Cloud Engineer",
-    organization: "General Role Standard Profile",
-    targetYears: 3,
-    requirements: [
-      { id: "ce-1", title: "Public Cloud Platforms (AWS / GCP / Azure)", weight: 5, must_have: true, techKeywords: ["aws", "gcp", "azure", "ec2", "s3", "cloud"] },
-      { id: "ce-2", title: "Infrastructure as Code (Terraform / CloudFormation)", weight: 5, must_have: true, techKeywords: ["terraform", "cloudformation", "ansible", "infrastructure as code", "iac"] },
-      { id: "ce-3", title: "Containerization & Orchestration (Docker / Kubernetes)", weight: 4, must_have: true, techKeywords: ["docker", "kubernetes", "k8s", "containers", "helm"] },
-      { id: "ce-4", title: "Linux Systems Administration & Scripting (Bash / Python)", weight: 4, must_have: true, techKeywords: ["linux", "bash", "shell", "python", "scripting"] },
-      { id: "ce-5", title: "Cloud Security & Identity Management (IAM)", weight: 3, must_have: false, techKeywords: ["iam", "security", "vpc", "firewall", "compliance"] }
-    ]
-  },
-  {
-    id: "role-devops-engineer",
-    title: "DevOps Engineer",
-    organization: "General Role Standard Profile",
-    targetYears: 3,
-    requirements: [
-      { id: "do-1", title: "CI/CD Pipeline Automation (GitHub Actions / Jenkins / GitLab)", weight: 5, must_have: true, techKeywords: ["ci/cd", "github actions", "jenkins", "gitlab ci", "pipeline"] },
-      { id: "do-2", title: "Docker & Kubernetes Orchestration", weight: 5, must_have: true, techKeywords: ["docker", "kubernetes", "k8s", "helm", "containers"] },
-      { id: "do-3", title: "Infrastructure as Code (Terraform / Ansible)", weight: 4, must_have: true, techKeywords: ["terraform", "ansible", "cloudformation", "iac"] },
-      { id: "do-4", title: "Monitoring & Observability (Prometheus / Grafana / ELK)", weight: 4, must_have: true, techKeywords: ["prometheus", "grafana", "elk", "monitoring", "logging", "datadog"] },
-      { id: "do-5", title: "Linux Administration & Bash / Python Automation", weight: 3, must_have: false, techKeywords: ["linux", "bash", "python", "scripting", "cron"] }
-    ]
-  },
-  {
-    id: "role-cybersecurity",
-    title: "Cybersecurity Analyst",
-    organization: "General Role Standard Profile",
-    targetYears: 3,
-    requirements: [
-      { id: "sec-1", title: "Network Security & Protocol Analysis (Wireshark / Firewalls)", weight: 5, must_have: true, techKeywords: ["network security", "wireshark", "firewall", "tcp/ip", "dns", "vpn"] },
-      { id: "sec-2", title: "Threat Analysis & SIEM Tools (Splunk / QRadar)", weight: 5, must_have: true, techKeywords: ["siem", "splunk", "soc", "threat intelligence", "incident response"] },
-      { id: "sec-3", title: "Vulnerability Assessment & Penetration Testing", weight: 4, must_have: true, techKeywords: ["vulnerability", "penetration testing", "nessus", "nmap", "metasploit", "owasp"] },
-      { id: "sec-4", title: "Security Frameworks & Compliance (NIST / ISO 27001)", weight: 4, must_have: true, techKeywords: ["nist", "iso 27001", "compliance", "gdpr", "hipaa", "security controls"] },
-      { id: "sec-5", title: "Identity & Access Management (IAM / PKI)", weight: 3, must_have: false, techKeywords: ["iam", "pki", "mfa", "encryption", "active directory"] }
-    ]
-  },
-  {
-    id: "role-genai-engineer",
-    title: "Generative AI Engineer",
-    organization: "General Role Standard Profile",
-    targetYears: 3,
-    requirements: [
-      { id: "gai-1", title: "Large Language Models (LLMs) & Transformers", weight: 5, must_have: true, techKeywords: ["llm", "llms", "large language models", "transformers", "gpt", "bert", "huggingface"] },
-      { id: "gai-2", title: "Retrieval-Augmented Generation (RAG) & Vector Databases", weight: 5, must_have: true, techKeywords: ["rag", "retrieval augmented generation", "vector database", "pinecone", "chroma", "faiss", "qdrant", "embeddings"] },
-      { id: "gai-3", title: "Python & Frameworks (LangChain / LlamaIndex / PyTorch)", weight: 4, must_have: true, techKeywords: ["python", "langchain", "llamaindex", "pytorch", "tensorflow"] },
-      { id: "gai-4", title: "Prompt Engineering & Model Fine-Tuning (PEFT / LoRA)", weight: 4, must_have: true, techKeywords: ["prompt engineering", "fine-tuning", "lora", "peft", "quantization"] },
-      { id: "gai-5", title: "REST API Deployment & MLOps", weight: 3, must_have: false, techKeywords: ["fastapi", "rest api", "mlops", "docker", "deployment", "triton"] }
-    ]
   }
 ];
 
@@ -333,7 +262,7 @@ function extractCandidateDataFromText(rawText, filename, jobProfile) {
   
   // Smart Name Extraction
   let name = "Candidate";
-  const baseFilename = filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ").trim();
+  const baseFilename = filename ? filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ").trim() : "";
   if (baseFilename && !/^(pdf|resume|cv|document|file|\d+)$/i.test(baseFilename)) {
     name = baseFilename.replace(/\b\w/g, c => c.toUpperCase());
   } else {
@@ -685,53 +614,53 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark bg-[#151413] text-[#F3F0EA]' : 'bg-[#F6F4F0] text-[#111111]'} font-sans flex text-[13px] antialiased selection:bg-[#FFE58A] selection:text-[#111111]`}>
+    <div className={`min-h-screen ${darkMode ? 'bg-[#0F172A] text-[#F8FAFC]' : 'bg-[#F8FAFC] text-[#334155]'} font-sans flex text-[13px] antialiased selection:bg-[#FEF08A] selection:text-[#0F172A]`}>
       <style>{FONT_AND_THEME_CSS}</style>
 
       {/* SLIM LEFT RAIL NAVIGATION */}
-      <aside className={`w-[48px] flex-shrink-0 flex flex-col items-center py-3 border-r ${
-        darkMode ? 'border-[#262422] bg-[#1A1918]' : 'border-[#E3DFD7] bg-[#F6F4F0]'
-      } sticky top-0 h-screen z-30 select-none`}>
+      <aside className={`w-[52px] flex-shrink-0 flex flex-col items-center py-4 border-r ${
+        darkMode ? 'border-slate-800 bg-[#0F172A]' : 'border-slate-200 bg-white'
+      } sticky top-0 h-screen z-30 select-none shadow-xs`}>
         
         <div className="mb-6 cursor-pointer" onClick={() => setActiveTab(appMode === 'candidate' ? "candidate-select-role" : "recruiter-jobs")}>
-          <div className="w-6 h-6 rounded-full bg-[#EE7564] text-white flex items-center justify-center font-mono font-bold text-xs shadow-xs">
+          <div className="w-7 h-7 rounded-lg bg-[#EE7564] text-white flex items-center justify-center font-mono font-bold text-xs shadow-xs">
             P
           </div>
         </div>
 
-        <nav className="flex flex-col gap-2 w-full items-center">
+        <nav className="flex flex-col gap-2.5 w-full items-center">
           {appMode === 'candidate' ? (
             <>
               <RailIconButton 
-                icon={<TargetIcon size={16} />} 
+                icon={<TargetIcon size={17} />} 
                 label="Target Role Selection" 
                 active={activeTab === "candidate-select-role"} 
                 onClick={() => setActiveTab("candidate-select-role")} 
                 darkMode={darkMode}
               />
               <RailIconButton 
-                icon={<UploadIcon size={16} />} 
+                icon={<UploadIcon size={17} />} 
                 label="Upload My Resume" 
                 active={activeTab === "candidate-upload"} 
                 onClick={() => setActiveTab("candidate-upload")} 
                 darkMode={darkMode}
               />
               <RailIconButton 
-                icon={<FileTextIcon size={16} />} 
+                icon={<FileTextIcon size={17} />} 
                 label="My Evidence Match Report" 
                 active={activeTab === "candidate-report"} 
                 onClick={() => setActiveTab("candidate-report")} 
                 darkMode={darkMode}
               />
               <RailIconButton 
-                icon={<SparklesIcon size={16} />} 
+                icon={<SparklesIcon size={17} />} 
                 label="Resume Improvement Studio" 
                 active={activeTab === "candidate-improve"} 
                 onClick={() => setActiveTab("candidate-improve")} 
                 darkMode={darkMode}
               />
               <RailIconButton 
-                icon={<HelpCircleIcon size={16} />} 
+                icon={<HelpCircleIcon size={17} />} 
                 label="Personalized Interview Prep" 
                 active={activeTab === "candidate-interview"} 
                 onClick={() => setActiveTab("candidate-interview")} 
@@ -741,28 +670,21 @@ export default function App() {
           ) : (
             <>
               <RailIconButton 
-                icon={<BriefcaseIcon size={16} />} 
+                icon={<BriefcaseIcon size={17} />} 
                 label="Job Requirement Profiles" 
                 active={activeTab === "recruiter-jobs"} 
                 onClick={() => setActiveTab("recruiter-jobs")} 
                 darkMode={darkMode}
               />
               <RailIconButton 
-                icon={<UploadIcon size={16} />} 
+                icon={<UploadIcon size={17} />} 
                 label="Bulk Upload Resumes" 
                 active={activeTab === "recruiter-upload"} 
                 onClick={() => setActiveTab("recruiter-upload")} 
                 darkMode={darkMode}
               />
               <RailIconButton 
-                icon={<UsersIcon size={16} />} 
-                label="Candidate Pipeline" 
-                active={activeTab === "recruiter-pipeline"} 
-                onClick={() => setActiveTab("recruiter-pipeline")} 
-                darkMode={darkMode}
-              />
-              <RailIconButton 
-                icon={<FileTextIcon size={16} />} 
+                icon={<FileTextIcon size={17} />} 
                 label="Candidate Detail & Audit" 
                 active={activeTab === "recruiter-detail"} 
                 onClick={() => setActiveTab("recruiter-detail")} 
@@ -777,18 +699,18 @@ export default function App() {
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         
         {/* TOP NAVIGATION BAR */}
-        <header className={`h-11 px-4 border-b flex items-center justify-between sticky top-0 z-20 ${
-          darkMode ? 'border-[#262422] bg-[#151413]/90 backdrop-blur' : 'border-[#E3DFD7] bg-[#F6F4F0]/90 backdrop-blur'
+        <header className={`h-12 px-6 border-b flex items-center justify-between sticky top-0 z-20 ${
+          darkMode ? 'border-slate-800 bg-[#0F172A]/90 backdrop-blur' : 'border-slate-200 bg-white/90 backdrop-blur'
         }`}>
           <div className="flex items-center gap-3">
-            <div className="flex bg-[#E3DFD7] dark:bg-[#262422] p-0.5 rounded-full font-mono text-[10px]">
+            <div className={`flex p-0.5 rounded-lg font-mono text-[11px] ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
               <button
                 onClick={() => {
                   setAppMode("candidate");
                   setActiveTab("candidate-select-role");
                 }}
-                className={`px-3 py-0.5 rounded-full font-bold transition ${
-                  appMode === "candidate" ? 'bg-[#111111] text-white dark:bg-[#F3F0EA] dark:text-[#111111] shadow-xs' : 'text-[#5B5852]'
+                className={`px-3 py-1 rounded-md font-bold transition ${
+                  appMode === "candidate" ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600'
                 }`}
               >
                 Candidate Workspace
@@ -798,16 +720,16 @@ export default function App() {
                   setAppMode("recruiter");
                   setActiveTab("recruiter-jobs");
                 }}
-                className={`px-3 py-0.5 rounded-full font-bold transition ${
-                  appMode === "recruiter" ? 'bg-[#EE7564] text-white shadow-xs' : 'text-[#5B5852]'
+                className={`px-3 py-1 rounded-md font-bold transition ${
+                  appMode === "recruiter" ? 'bg-[#EE7564] text-white shadow-xs' : 'text-slate-600'
                 }`}
               >
                 Recruiter Workspace
               </button>
             </div>
 
-            <span className="text-[#8A857C]">/</span>
-            <span className="font-semibold text-[#111111] dark:text-[#F3F0EA]">
+            <span className="text-slate-300">/</span>
+            <span className={`font-semibold ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
               {activeJob ? activeJob.title : "Role Selection"}
             </span>
           </div>
@@ -815,12 +737,12 @@ export default function App() {
           <div className="flex items-center gap-4">
             {appMode === 'recruiter' && (
               <label className="flex items-center gap-2 cursor-pointer select-none text-xs">
-                <span className={`font-mono text-[11px] uppercase tracking-wider ${blindMode ? 'text-[#EE7564] font-semibold' : 'text-[#5B5852]'}`}>
+                <span className={`font-mono text-[11px] uppercase tracking-wider ${blindMode ? 'text-[#EE7564] font-semibold' : 'text-slate-500'}`}>
                   {blindMode ? 'Blind Mode ON' : 'Blind Mode'}
                 </span>
                 <button 
                   onClick={() => setBlindMode(!blindMode)}
-                  className={`w-9 h-5 rounded-full p-0.5 transition-colors ${blindMode ? 'bg-[#EE7564]' : 'bg-[#E3DFD7] dark:bg-[#33302C]'}`}
+                  className={`w-9 h-5 rounded-full p-0.5 transition-colors ${blindMode ? 'bg-[#EE7564]' : 'bg-slate-200'}`}
                 >
                   <div className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${blindMode ? 'translate-x-4' : 'translate-x-0'}`} />
                 </button>
@@ -829,7 +751,7 @@ export default function App() {
 
             <button 
               onClick={() => setDarkMode(!darkMode)}
-              className="p-1.5 rounded hover:bg-black/5 dark:hover:bg-white/5 text-[#5B5852]"
+              className={`p-1.5 rounded-md text-slate-600 ${darkMode ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}
             >
               {darkMode ? '☀️' : '🌙'}
             </button>
@@ -843,10 +765,10 @@ export default function App() {
           {activeTab === "candidate-select-role" && (
             <div className="p-8 max-w-5xl mx-auto w-full space-y-6">
               <div>
-                <h1 className="font-display text-4xl tracking-tight text-[#111111] dark:text-[#F3F0EA]">
+                <h1 className={`font-display text-3xl font-bold tracking-tight ${darkMode ? 'text-slate-50' : 'text-slate-900'}`}>
                   Select Target Job Role<span className="text-[#EE7564]">.</span>
                 </h1>
-                <p className="text-xs text-[#5B5852] mt-1">
+                <p className="text-xs text-slate-500 mt-1">
                   Choose a role profile or type a custom job title. Analysis evaluates your resume against standard expectations.
                 </p>
               </div>
@@ -865,41 +787,57 @@ export default function App() {
                     }
                   }}
                   className={`flex-1 p-3 rounded-lg border text-xs outline-none focus:ring-2 focus:ring-[#EE7564] ${
-                    darkMode ? 'bg-[#1A1918] border-[#33302C]' : 'bg-white border-[#E3DFD7]'
+                    darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
                   }`}
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {allAvailableProfiles.map(j => (
-                  <div 
-                    key={j.id}
-                    onClick={() => {
-                      setSelectedJobId(j.id);
-                      showToast(`Selected "${j.title}" target profile.`);
-                      setActiveTab("candidate-upload");
-                    }}
-                    className={`p-5 rounded-lg border cursor-pointer transition-all ${
-                      selectedJobId === j.id 
-                        ? 'border-[#EE7564] ring-2 ring-[#EE7564]/20 bg-[#FFF9F8] dark:bg-[#151413]' 
-                        : darkMode ? 'border-[#262422] bg-[#1A1918]' : 'border-[#E3DFD7] bg-white hover:border-[#111111]/30'
-                    }`}
-                  >
-                    <div className="font-bold text-base text-[#111111] dark:text-[#F3F0EA]">{j.title}</div>
-                    <div className="text-[11px] font-mono text-[#8A857C] mt-0.5">{j.organization}</div>
-                    <div className="mt-3 flex flex-wrap gap-1">
-                      {j.requirements && j.requirements.slice(0, 3).map(r => (
-                        <span key={r.id} className="px-2 py-0.5 rounded bg-[#F6F4F0] dark:bg-[#151413] border text-[10px] font-mono text-[#5B5852]">
-                          {r.title}
-                        </span>
-                      ))}
+                {allAvailableProfiles.map(j => {
+                  const isSelected = selectedJobId === j.id;
+                  return (
+                    <div 
+                      key={j.id}
+                      onClick={() => {
+                        setSelectedJobId(j.id);
+                        showToast(`Selected "${j.title}" target profile.`);
+                        setActiveTab("candidate-upload");
+                      }}
+                      className={`p-5 rounded-xl border cursor-pointer transition-all ${
+                        isSelected 
+                          ? darkMode 
+                            ? 'border-[#EE7564] bg-slate-900 shadow-md ring-1 ring-[#EE7564]' 
+                            : 'border-[#EE7564] bg-rose-50/40 shadow-md ring-2 ring-[#EE7564]/30'
+                          : darkMode 
+                            ? 'border-slate-800 bg-slate-900 hover:border-slate-700' 
+                            : 'border-slate-200 bg-white hover:border-slate-300 shadow-xs'
+                      }`}
+                    >
+                      <div className={`font-bold text-base ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>{j.title}</div>
+                      <div className="text-[11px] font-mono text-slate-400 mt-0.5">{j.organization}</div>
+                      
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {j.requirements && j.requirements.slice(0, 3).map(r => (
+                          <span 
+                            key={r.id} 
+                            className={`px-2 py-0.5 rounded-md text-[10px] font-mono border ${
+                              darkMode 
+                                ? 'bg-slate-800 border-slate-700 text-slate-300' 
+                                : 'bg-slate-100 border-slate-200 text-slate-700'
+                            }`}
+                          >
+                            {r.title}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs font-mono text-[#EE7564] font-bold">
+                        <span>Select Target Role →</span>
+                        <span>{j.requirements ? j.requirements.length : 0} Expectations</span>
+                      </div>
                     </div>
-                    <div className="mt-4 pt-2 border-t border-[#E3DFD7]/50 flex justify-between items-center text-xs font-mono text-[#EE7564] font-bold">
-                      <span>Select Target Role →</span>
-                      <span>{j.requirements ? j.requirements.length : 0} Expectations</span>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -962,16 +900,18 @@ export default function App() {
             <div className="p-8 max-w-5xl mx-auto w-full space-y-6">
               <div className="flex justify-between items-end">
                 <div>
-                  <h1 className="font-display text-4xl tracking-tight text-[#111111] dark:text-[#F3F0EA]">
+                  <h1 className={`font-display text-3xl font-bold tracking-tight ${darkMode ? 'text-slate-50' : 'text-slate-900'}`}>
                     Recruiter Job Profiles<span className="text-[#EE7564]">.</span>
                   </h1>
-                  <p className="text-xs text-[#5B5852] mt-1">
+                  <p className="text-xs text-slate-500 mt-1">
                     Manage private hiring specifications for candidate screening.
                   </p>
                 </div>
                 <button 
                   onClick={() => setNewJobModalOpen(true)}
-                  className="h-10 px-5 rounded-full bg-[#111111] dark:bg-[#F3F0EA] text-white dark:text-[#111111] font-semibold text-xs flex items-center gap-2"
+                  className={`h-9 px-5 rounded-lg font-semibold text-xs flex items-center gap-2 ${
+                    darkMode ? 'bg-slate-100 text-slate-900' : 'bg-slate-900 text-white'
+                  }`}
                 >
                   <PlusIcon size={15} /> Create Profile
                 </button>
@@ -985,16 +925,16 @@ export default function App() {
                       setSelectedJobId(j.id);
                       setActiveTab("recruiter-upload");
                     }}
-                    className={`p-5 rounded-lg border cursor-pointer transition-all ${
+                    className={`p-5 rounded-xl border cursor-pointer transition-all ${
                       selectedJobId === j.id 
-                        ? 'border-[#EE7564] ring-2 ring-[#EE7564]/20 bg-[#FFF9F8] dark:bg-[#151413]' 
-                        : darkMode ? 'border-[#262422] bg-[#1A1918]' : 'border-[#E3DFD7] bg-white hover:border-[#111111]/30'
+                        ? 'border-[#EE7564] ring-2 ring-[#EE7564]/20 bg-white shadow-md' 
+                        : darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
-                    <div className="font-bold text-base text-[#111111] dark:text-[#F3F0EA]">{j.title}</div>
-                    <div className="text-xs text-[#8A857C] mt-0.5">{j.organization}</div>
-                    <div className="mt-4 pt-3 border-t border-[#E3DFD7]/50 flex justify-between items-center text-xs font-mono text-[#EE7564] font-bold">
-                      <span>{j.requirements ? j.requirements.length : 0} Expectations</span>
+                    <div className={`font-bold text-base ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>{j.title}</div>
+                    <div className="text-xs text-slate-400 mt-0.5">{j.organization}</div>
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs font-mono text-[#EE7564] font-bold">
+                      <span>{j.requirements ? j.requirements.length : 0} Requirements</span>
                       <span>Screen Candidates →</span>
                     </div>
                   </div>
@@ -1016,41 +956,41 @@ export default function App() {
 
       {/* CREATE JOB PROFILE MODAL */}
       {newJobModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className={`w-full max-w-lg p-6 rounded-lg border shadow-xl ${darkMode ? 'bg-[#1A1918] border-[#262422]' : 'bg-white border-[#E3DFD7]'}`}>
-            <div className="flex justify-between items-center pb-3 border-b border-[#E3DFD7] mb-4">
-              <h3 className="font-display text-xl">Create Role Profile.</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4">
+          <div className={`w-full max-w-lg p-6 rounded-xl border shadow-xl ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+            <div className="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
+              <h3 className={`font-display text-xl font-bold ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>Create Role Profile.</h3>
               <button onClick={() => setNewJobModalOpen(false)}><XIcon size={16} /></button>
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-semibold">Job Title *</label>
+                <label className={`text-xs font-semibold ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>Job Title *</label>
                 <input 
                   type="text" 
                   value={newJobTitle}
                   onChange={(e) => setNewJobTitle(e.target.value)}
                   placeholder="e.g. Financial Analyst" 
-                  className={`w-full p-2.5 rounded border text-xs outline-none ${
-                    darkMode ? 'bg-[#151413] border-[#33302C]' : 'bg-[#F6F4F0] border-[#E3DFD7]'
+                  className={`w-full p-2.5 rounded-lg border text-xs outline-none ${
+                    darkMode ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-900'
                   }`}
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold">Organization</label>
+                <label className={`text-xs font-semibold ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>Organization</label>
                 <input 
                   type="text" 
                   value={newJobOrg}
                   onChange={(e) => setNewJobOrg(e.target.value)}
                   placeholder="e.g. Finance Team" 
-                  className={`w-full p-2.5 rounded border text-xs outline-none ${
-                    darkMode ? 'bg-[#151413] border-[#33302C]' : 'bg-[#F6F4F0] border-[#E3DFD7]'
+                  className={`w-full p-2.5 rounded-lg border text-xs outline-none ${
+                    darkMode ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-900'
                   }`}
                 />
               </div>
             </div>
-            <div className="flex justify-end gap-2 pt-4 border-t mt-4">
-              <button onClick={() => setNewJobModalOpen(false)} className="px-4 h-9 rounded-full border text-xs font-semibold">Cancel</button>
-              <button onClick={handleSaveNewJob} disabled={!newJobTitle.trim()} className="px-5 h-9 rounded-full bg-[#111111] text-white font-semibold text-xs disabled:opacity-40">Save Profile →</button>
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
+              <button onClick={() => setNewJobModalOpen(false)} className="px-4 h-9 rounded-lg border text-xs font-semibold">Cancel</button>
+              <button onClick={handleSaveNewJob} disabled={!newJobTitle.trim()} className="px-5 h-9 rounded-lg bg-slate-900 text-white font-semibold text-xs disabled:opacity-40">Save Profile →</button>
             </div>
           </div>
         </div>
@@ -1058,22 +998,22 @@ export default function App() {
 
       {/* HUMAN REJECTION MODAL */}
       {rejectModalOpen && appMode === 'recruiter' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className={`w-full max-w-md p-6 rounded-lg border shadow-xl ${darkMode ? 'bg-[#1A1918] border-[#262422]' : 'bg-white border-[#E3DFD7]'}`}>
-            <h3 className="font-display text-xl mb-1 text-[#C8483B]">Reject Candidate?</h3>
-            <p className="text-xs text-[#5B5852] mb-4">Rejections require an audit reason. No candidate is ever auto-rejected.</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4">
+          <div className={`w-full max-w-md p-6 rounded-xl border shadow-xl ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+            <h3 className="font-display text-xl font-bold mb-1 text-rose-600">Reject Candidate?</h3>
+            <p className="text-xs text-slate-500 mb-4">Rejections require an audit reason. No candidate is ever auto-rejected.</p>
             <textarea 
               rows={4}
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
               placeholder="Enter recruiter decision reason (min 10 chars)..."
-              className={`w-full p-2.5 rounded border text-xs outline-none ${
-                darkMode ? 'bg-[#151413] border-[#33302C]' : 'bg-[#F6F4F0] border-[#E3DFD7]'
+              className={`w-full p-2.5 rounded-lg border text-xs outline-none ${
+                darkMode ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-900'
               }`}
             />
-            <div className="flex justify-end gap-2 pt-4 border-t mt-3">
-              <button onClick={() => setRejectModalOpen(false)} className="px-4 h-9 rounded-full border text-xs font-semibold">Cancel</button>
-              <button onClick={confirmRejection} disabled={rejectReason.trim().length < 10} className="px-4 h-9 rounded-full bg-[#C8483B] text-white text-xs font-semibold disabled:opacity-40">Confirm Reject</button>
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800 mt-3">
+              <button onClick={() => setRejectModalOpen(false)} className="px-4 h-9 rounded-lg border text-xs font-semibold">Cancel</button>
+              <button onClick={confirmRejection} disabled={rejectReason.trim().length < 10} className="px-4 h-9 rounded-lg bg-rose-600 text-white text-xs font-semibold disabled:opacity-40">Confirm Reject</button>
             </div>
           </div>
         </div>
@@ -1081,7 +1021,7 @@ export default function App() {
 
       {/* TOAST FEEDBACK */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 bg-[#111111] text-white px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 text-xs">
+        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-lg shadow-lg flex items-center gap-2 text-xs font-medium">
           <CheckCircle2Icon size={15} className="text-[#EE7564]" />
           <span>{toastMessage}</span>
         </div>
@@ -1095,15 +1035,15 @@ function RailIconButton({ icon, label, active, onClick, darkMode }) {
     <div className="relative group">
       <button 
         onClick={onClick}
-        className={`w-9 h-9 rounded-md flex items-center justify-center transition-colors ${
+        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
           active 
-            ? 'bg-[#E4DEF5] text-[#111111] font-bold' 
-            : darkMode ? 'text-[#A8A39A] hover:bg-white/5' : 'text-[#5B5852] hover:bg-black/5'
+            ? 'bg-slate-900 text-white shadow-xs' 
+            : darkMode ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-500 hover:bg-slate-100'
         }`}
       >
         {icon}
       </button>
-      <div className="absolute left-12 top-1.5 hidden group-hover:block z-50 bg-[#111111] text-white text-[11px] px-2 py-1 rounded whitespace-nowrap">
+      <div className="absolute left-11 top-1 hidden group-hover:block z-50 bg-slate-900 text-white text-[11px] px-2.5 py-1 rounded-md whitespace-nowrap shadow-md">
         {label}
       </div>
     </div>
@@ -1187,16 +1127,16 @@ function UploadAndParseView({ darkMode, showToast, job, appMode, onFinish }) {
   return (
     <div className="p-8 max-w-2xl mx-auto w-full space-y-6 pt-10">
       <div className="text-center">
-        <h1 className="font-display text-4xl tracking-tight text-[#111111] dark:text-[#F3F0EA]">
+        <h1 className={`font-display text-4xl tracking-tight ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
           Upload candidate resume<span className="text-[#EE7564]">.</span>
         </h1>
-        <p className="text-xs text-[#5B5852] mt-1">
-          Evaluating evidence against <strong className="text-[#111111] dark:text-[#F3F0EA]">{job.title}</strong> expectations
+        <p className="text-xs text-slate-500 mt-1">
+          Evaluating evidence against <strong className={`${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>{job.title}</strong> expectations
         </p>
       </div>
 
       <div className={`p-8 rounded-xl border-2 border-dashed text-center relative transition-colors ${
-        darkMode ? 'border-[#33302C] bg-[#1A1918]' : 'border-[#E3DFD7] bg-white'
+        darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-300 bg-white'
       }`}>
         <input 
           type="file" 
@@ -1205,7 +1145,7 @@ function UploadAndParseView({ darkMode, showToast, job, appMode, onFinish }) {
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         />
         <UploadIcon size={32} className="mx-auto mb-3 text-[#EE7564]" />
-        <div className="font-semibold text-sm">Click or Drag PDF / DOCX / TXT resume here</div>
+        <div className={`font-semibold text-sm ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>Click or Drag PDF / DOCX / TXT resume here</div>
 
         {parsing && (
           <div className="mt-4 font-mono text-xs text-[#EE7564] flex items-center justify-center gap-2">
@@ -1221,13 +1161,13 @@ function UploadAndParseView({ darkMode, showToast, job, appMode, onFinish }) {
           onChange={(e) => setPastedText(e.target.value)}
           placeholder="Or paste raw resume text content here..."
           className={`w-full p-3 rounded-lg border text-xs outline-none focus:ring-2 focus:ring-[#EE7564] font-serif ${
-            darkMode ? 'bg-[#1A1918] border-[#33302C]' : 'bg-white border-[#E3DFD7]'
+            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
           }`}
         />
         <button 
           onClick={handleParsePastedText}
           disabled={!pastedText.trim() || parsing}
-          className="w-full h-10 rounded-full bg-[#111111] dark:bg-[#F3F0EA] text-white dark:text-[#111111] font-semibold text-xs disabled:opacity-40"
+          className="w-full h-10 rounded-full bg-slate-900 text-white font-semibold text-xs disabled:opacity-40"
         >
           {parsing ? "Parsing..." : "Parse & Screen Resume Text →"}
         </button>
@@ -1247,10 +1187,10 @@ function CandidateDetailView({
   if (!candidate) {
     return (
       <div className="p-12 max-w-xl mx-auto text-center space-y-4 pt-20">
-        <FileTextIcon size={36} className="mx-auto text-[#8A857C]" />
+        <FileTextIcon size={36} className="mx-auto text-slate-400" />
         <div className="font-display text-2xl">No Candidate Resume Loaded<span className="text-[#EE7564]">.</span></div>
-        <p className="text-xs text-[#5B5852]">Upload your resume to view evidence receipts and skill expectations.</p>
-        <button onClick={onOpenUpload} className="h-9 px-5 rounded-full bg-[#111111] text-white font-semibold text-xs">
+        <p className="text-xs text-slate-500">Upload your resume to view evidence receipts and skill expectations.</p>
+        <button onClick={onOpenUpload} className="h-9 px-5 rounded-full bg-slate-900 text-white font-semibold text-xs">
           Upload Resume Now →
         </button>
       </div>
@@ -1280,22 +1220,22 @@ function CandidateDetailView({
       
       {/* CANDIDATE VS RECRUITER STICKY HEADER */}
       <div className={`px-6 py-3 border-b flex items-center justify-between sticky top-0 z-10 ${
-        darkMode ? 'bg-[#151413] border-[#262422]' : 'bg-[#F6F4F0] border-[#E3DFD7]'
+        darkMode ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'
       }`}>
         <div className="flex items-center gap-5">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="font-display text-2xl tracking-tight text-[#111111] dark:text-[#F3F0EA]">
+              <h1 className={`font-display text-2xl tracking-tight ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
                 {appMode === 'recruiter' && blindMode ? candidate.codeName : candidate.name}
                 <span className="text-[#EE7564]">.</span>
               </h1>
               
               {appMode === 'recruiter' && (
                 <span className={`px-3 py-0.5 rounded-full font-mono text-[11px] font-semibold uppercase ${
-                  candidate.status === 'SHORTLISTED' ? 'bg-[#2F7D5B]/15 text-[#2F7D5B]' :
-                  candidate.status === 'ON HOLD' ? 'bg-[#C98A1B]/15 text-[#C98A1B]' :
-                  candidate.status === 'REJECTED' ? 'bg-[#C8483B]/15 text-[#C8483B]' :
-                  'bg-[#8A857C]/15 text-[#8A857C]'
+                  candidate.status === 'SHORTLISTED' ? 'bg-emerald-100 text-emerald-800' :
+                  candidate.status === 'ON HOLD' ? 'bg-amber-100 text-amber-800' :
+                  candidate.status === 'REJECTED' ? 'bg-rose-100 text-rose-800' :
+                  'bg-slate-100 text-slate-700'
                 }`}>
                   {candidate.status}
                 </span>
@@ -1303,17 +1243,19 @@ function CandidateDetailView({
             </div>
 
             <div className="mt-1 flex items-center gap-2 font-mono text-xs relative">
-              <span className="text-[#5B5852]">Match Score:</span>
+              <span className="text-slate-500">Match Score:</span>
               <button 
                 onClick={() => setShowScorePopover(!showScorePopover)}
-                className="font-bold text-sm text-[#111111] dark:text-[#F3F0EA] underline decoration-dotted underline-offset-4 cursor-pointer hover:text-[#EE7564]"
+                className={`font-bold text-sm underline decoration-dotted underline-offset-4 cursor-pointer hover:text-[#EE7564] ${
+                  darkMode ? 'text-slate-100' : 'text-slate-900'
+                }`}
               >
                 {isIncomplete ? "Analysis Incomplete" : `${mathScore}/100`}
               </button>
 
               {showScorePopover && !isIncomplete && (
                 <div className={`absolute left-0 top-6 z-50 w-80 p-4 rounded-lg border shadow-xl ${
-                  darkMode ? 'bg-[#1A1918] border-[#33302C]' : 'bg-white border-[#E3DFD7]'
+                  darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
                 }`}>
                   <div className="flex justify-between items-center pb-2 border-b mb-2 text-xs font-bold">
                     <span>Score Calculation Math</span>
@@ -1325,14 +1267,14 @@ function CandidateDetailView({
                       const factor = ev ? (ev.strength === 'Strong' ? 1.0 : ev.strength === 'Moderate' ? 0.6 : 0.0) : 0.0;
                       const pts = ((r.weight || 1) * factor).toFixed(1);
                       return (
-                        <div key={r.id} className="flex justify-between text-[#5B5852]">
+                        <div key={r.id} className="flex justify-between text-slate-500">
                           <span className="truncate w-44">{r.title}</span>
-                          <span>W:{r.weight || 1} × {factor} = <strong className="text-[#111111] dark:text-[#F3F0EA]">{pts}</strong></span>
+                          <span>W:{r.weight || 1} × {factor} = <strong className={darkMode ? 'text-slate-100' : 'text-slate-900'}>{pts}</strong></span>
                         </div>
                       );
                     })}
                   </div>
-                  <div className="mt-3 pt-2 border-t text-[10px] text-[#8A857C] italic">
+                  <div className="mt-3 pt-2 border-t text-[10px] text-slate-400 italic">
                     Formula: Weighted coverage sum normalized against total target points.
                   </div>
                 </div>
@@ -1345,14 +1287,14 @@ function CandidateDetailView({
           <div className="flex items-center gap-2">
             <button 
               onClick={onNavigateStudio}
-              className="h-8 px-3 rounded-full bg-[#111111] dark:bg-[#F3F0EA] text-white dark:text-[#111111] text-xs font-semibold flex items-center gap-1 shadow-xs"
+              className="h-8 px-3 rounded-full bg-slate-900 text-white text-xs font-semibold flex items-center gap-1 shadow-xs"
             >
               <SparklesIcon size={13} /> Improve My Resume
             </button>
             <button 
               onClick={() => setFilterMode(filterMode === 'STRENGTHS' ? 'ALL' : 'STRENGTHS')}
               className={`h-8 px-3 rounded-full border text-xs font-semibold ${
-                filterMode === 'STRENGTHS' ? 'bg-[#2F7D5B] text-white' : 'border-[#E3DFD7]'
+                filterMode === 'STRENGTHS' ? 'bg-emerald-600 text-white' : 'border-slate-300 bg-white text-slate-800'
               }`}
             >
               View Strengths ({directMatches.length})
@@ -1360,20 +1302,20 @@ function CandidateDetailView({
             <button 
               onClick={() => setFilterMode(filterMode === 'GAPS' ? 'ALL' : 'GAPS')}
               className={`h-8 px-3 rounded-full border text-xs font-semibold ${
-                filterMode === 'GAPS' ? 'bg-[#C8483B] text-white' : 'border-[#E3DFD7]'
+                filterMode === 'GAPS' ? 'bg-rose-600 text-white' : 'border-slate-300 bg-white text-slate-800'
               }`}
             >
               View Skill Gaps ({unverifiedReqs.length})
             </button>
             <button 
               onClick={onNavigateInterview}
-              className="h-8 px-3 rounded-full border-2 border-[#111111] dark:border-[#F3F0EA] text-xs font-semibold"
+              className="h-8 px-3 rounded-full border-2 border-slate-900 text-xs font-semibold bg-white text-slate-900"
             >
               Prepare for Interview
             </button>
             <button 
               onClick={downloadReport}
-              className="h-8 px-3 rounded-full border text-xs font-semibold flex items-center gap-1"
+              className="h-8 px-3 rounded-full border border-slate-300 bg-white text-xs font-semibold flex items-center gap-1 text-slate-800"
             >
               <PrinterIcon size={13} /> Download Report
             </button>
@@ -1382,19 +1324,19 @@ function CandidateDetailView({
           <div className="flex items-center gap-2">
             <button 
               onClick={() => onStatusChange(candidate.id, "SHORTLISTED")}
-              className="h-8 px-3 rounded-full bg-[#111111] dark:bg-[#F3F0EA] text-white dark:text-[#111111] text-xs font-semibold flex items-center gap-1"
+              className="h-8 px-3 rounded-full bg-slate-900 text-white text-xs font-semibold flex items-center gap-1"
             >
               <CheckIcon size={13} /> Shortlist →
             </button>
             <button 
               onClick={() => onStatusChange(candidate.id, "ON HOLD")}
-              className="h-8 px-3 rounded-full border-2 border-[#111111] dark:border-[#F3F0EA] text-xs font-semibold"
+              className="h-8 px-3 rounded-full border-2 border-slate-900 text-xs font-semibold bg-white text-slate-900"
             >
               Hold
             </button>
             <button 
               onClick={() => onOpenReject(candidate.id)}
-              className="h-8 px-3 rounded-full border-2 border-[#111111] text-xs font-semibold text-[#C8483B]"
+              className="h-8 px-3 rounded-full border-2 border-slate-300 bg-white text-xs font-semibold text-rose-600"
             >
               Reject...
             </button>
@@ -1406,16 +1348,16 @@ function CandidateDetailView({
       <div className="flex-1 flex min-h-0 overflow-hidden">
         
         {/* LEFT PANE: RESUME PAPER */}
-        <div className={`w-[58%] p-6 overflow-y-auto ${darkMode ? 'bg-[#151413]' : 'bg-[#F6F4F0]'}`}>
+        <div className={`w-[58%] p-6 overflow-y-auto ${darkMode ? 'bg-slate-950' : 'bg-slate-100'}`}>
           <div className={`p-8 rounded-lg border shadow-xs ${
-            darkMode ? 'bg-[#1A1918] border-[#33302C]' : 'bg-[#FFFFFF] border-[#E3DFD7]'
-          }`} style={{ boxShadow: darkMode ? '4px 4px 0px 0px #262422' : '4px 4px 0px 0px #EE7564' }}>
+            darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+          }`}>
             
-            <div className="border-b border-[#E3DFD7] pb-4 mb-5">
-              <h2 className={`font-serif text-2xl font-bold ${appMode === 'recruiter' && blindMode ? 'redacted-bar w-48 h-7' : 'text-[#111111] dark:text-[#F3F0EA]'}`}>
+            <div className="border-b border-slate-200 pb-4 mb-5">
+              <h2 className={`font-serif text-2xl font-bold ${appMode === 'recruiter' && blindMode ? 'redacted-bar w-48 h-7' : 'text-slate-900'}`}>
                 {appMode === 'recruiter' && blindMode ? 'REDACTED NAME' : candidate.name}
               </h2>
-              <div className="mt-1 flex flex-wrap gap-3 text-xs font-serif text-[#5B5852]">
+              <div className="mt-1 flex flex-wrap gap-3 text-xs font-serif text-slate-500">
                 <span className={appMode === 'recruiter' && blindMode ? 'redacted-bar px-6' : ''}>{appMode === 'recruiter' && blindMode ? 'email@redacted.com' : candidate.email}</span>
                 <span>•</span>
                 <span className={appMode === 'recruiter' && blindMode ? 'redacted-bar px-4' : ''}>{appMode === 'recruiter' && blindMode ? '+91 XXXXX XXXXX' : candidate.phone}</span>
@@ -1424,32 +1366,32 @@ function CandidateDetailView({
 
             {/* PROFESSIONAL SUMMARY */}
             <div className="mb-5">
-              <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#8A857C] border-b pb-1 mb-2">
+              <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-slate-400 border-b pb-1 mb-2">
                 PROFESSIONAL SUMMARY
               </div>
-              <p className="font-serif text-sm leading-relaxed text-[#111111] dark:text-[#F3F0EA]">
+              <p className={`font-serif text-sm leading-relaxed ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
                 {candidate.rawResumeText ? candidate.rawResumeText.summary : "Summary extracted."}
               </p>
             </div>
 
             {/* EDUCATION */}
             <div className="mb-5">
-              <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#8A857C] border-b pb-1 mb-2">
+              <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-slate-400 border-b pb-1 mb-2">
                 EDUCATION
               </div>
-              <p className="font-serif text-sm leading-relaxed text-[#111111] dark:text-[#F3F0EA]">
+              <p className={`font-serif text-sm leading-relaxed ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
                 {candidate.rawResumeText ? candidate.rawResumeText.education : "Education extracted."}
               </p>
             </div>
 
             {/* WORK EXPERIENCE */}
             <div className="mb-5">
-              <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#8A857C] border-b pb-1 mb-3">
+              <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-slate-400 border-b pb-1 mb-3">
                 WORK EXPERIENCE
               </div>
 
               {candidate.rawResumeText && candidate.rawResumeText.experienceHighlights ? (
-                <ul className="list-disc list-inside space-y-2 font-serif text-sm text-[#111111] dark:text-[#F3F0EA]">
+                <ul className={`list-disc list-inside space-y-2 font-serif text-sm ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
                   {candidate.rawResumeText.experienceHighlights.map((h, hIdx) => {
                     const matchedEntry = candidate.evidenceMap ? Object.entries(candidate.evidenceMap).find(
                       ([_, ev]) => ev.quote && h.includes(ev.quote)
@@ -1462,7 +1404,7 @@ function CandidateDetailView({
                         key={hIdx} 
                         id={quoteId || `h-${hIdx}`}
                         className={`p-1.5 rounded transition-all ${
-                          isHighlighted ? 'bg-[#FFE58A] animate-pulse-coral font-medium' : quoteId ? 'marker-highlight' : ''
+                          isHighlighted ? 'bg-amber-200 animate-pulse-coral font-medium text-slate-900' : quoteId ? 'marker-highlight' : ''
                         }`}
                       >
                         <span>{h}</span>
@@ -1476,10 +1418,10 @@ function CandidateDetailView({
             {/* INTERNSHIPS */}
             {candidate.rawResumeText && candidate.rawResumeText.internships && (
               <div className="mb-5">
-                <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#8A857C] border-b pb-1 mb-2">
+                <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-slate-400 border-b pb-1 mb-2">
                   INTERNSHIPS
                 </div>
-                <p className="font-serif text-sm leading-relaxed text-[#111111] dark:text-[#F3F0EA]">
+                <p className={`font-serif text-sm leading-relaxed ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
                   {candidate.rawResumeText.internships}
                 </p>
               </div>
@@ -1488,10 +1430,10 @@ function CandidateDetailView({
             {/* PROJECTS */}
             {candidate.rawResumeText && candidate.rawResumeText.projectHighlights && candidate.rawResumeText.projectHighlights.length > 0 && (
               <div className="mb-5">
-                <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#8A857C] border-b pb-1 mb-3">
+                <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-slate-400 border-b pb-1 mb-3">
                   FEATURED PROJECTS
                 </div>
-                <ul className="list-disc list-inside space-y-2 font-serif text-sm text-[#111111] dark:text-[#F3F0EA]">
+                <ul className={`list-disc list-inside space-y-2 font-serif text-sm ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
                   {candidate.rawResumeText.projectHighlights.map((p, pIdx) => (
                     <li key={pIdx}>{p}</li>
                   ))}
@@ -1502,14 +1444,14 @@ function CandidateDetailView({
             {/* SKILLS */}
             <div>
               <div className="flex justify-between border-b pb-1 mb-2">
-                <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#8A857C]">
+                <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-slate-400">
                   TECHNICAL & DOMAIN SKILLS
                 </span>
-                <span className="text-[11px] font-mono text-[#8A857C] italic">
+                <span className="text-[11px] font-mono text-slate-400 italic">
                   Listed skills
                 </span>
               </div>
-              <p className="font-serif text-sm text-[#5B5852]">
+              <p className="font-serif text-sm text-slate-600">
                 {candidate.rawResumeText ? candidate.rawResumeText.skillsSection : "Skills parsed."}
               </p>
             </div>
@@ -1519,11 +1461,11 @@ function CandidateDetailView({
 
         {/* RIGHT PANE: CHECKLIST */}
         <div className={`w-[42%] border-l p-6 overflow-y-auto space-y-5 ${
-          darkMode ? 'bg-[#1A1918] border-[#262422]' : 'bg-[#FFFFFF] border-[#E3DFD7]'
+          darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
         }`}>
           
-          <div className="p-3 rounded-lg border border-[#E3DFD7] bg-[#F6F4F0]/60 space-y-2">
-            <div className="text-[11px] font-mono font-bold uppercase text-[#8A857C] flex justify-between items-center">
+          <div className="p-3 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+            <div className="text-[11px] font-mono font-bold uppercase text-slate-500 flex justify-between items-center">
               <span>{job.title} Verification</span>
               <button 
                 onClick={onOpenEditReqs}
@@ -1533,13 +1475,13 @@ function CandidateDetailView({
               </button>
             </div>
             <div className="flex gap-1.5 font-mono text-[10px]">
-              <span className="px-2 py-1 rounded bg-[#2F7D5B]/15 text-[#2F7D5B] font-bold flex-1 text-center">
+              <span className="px-2 py-1 rounded bg-emerald-100 text-emerald-800 font-bold flex-1 text-center">
                 ✓ {directMatches.length} Direct
               </span>
-              <span className="px-2 py-1 rounded bg-[#C98A1B]/15 text-[#C98A1B] font-bold flex-1 text-center">
+              <span className="px-2 py-1 rounded bg-amber-100 text-amber-800 font-bold flex-1 text-center">
                 ⚡ {relatedSkills.length} Transferable
               </span>
-              <span className="px-2 py-1 rounded bg-[#C8483B]/15 text-[#C8483B] font-bold flex-1 text-center">
+              <span className="px-2 py-1 rounded bg-rose-100 text-rose-800 font-bold flex-1 text-center">
                 ✕ {unverifiedReqs.length} Missing
               </span>
             </div>
@@ -1557,17 +1499,17 @@ function CandidateDetailView({
             ))}
           </div>
 
-          <div className="pt-3 border-t text-[11px] text-[#8A857C] font-mono italic">
+          <div className="pt-3 border-t text-[11px] text-slate-400 font-mono italic">
             * Note: Missing evidence in the resume does not prove that the candidate lacks the skill. It indicates undocumented qualification requiring review.
           </div>
 
           {appMode === 'recruiter' && (
             <div className="pt-6 border-t space-y-2">
-              <div className="text-[11px] font-mono font-bold uppercase text-[#8A857C]">RECRUITER AUDIT LOG</div>
+              <div className="text-[11px] font-mono font-bold uppercase text-slate-400">RECRUITER AUDIT LOG</div>
               {candidate.auditLog && candidate.auditLog.map(log => (
                 <div key={log.id} className="p-2 rounded border text-[11px] font-mono">
-                  <div className="text-[#8A857C]">{log.author} • {log.time}</div>
-                  <div className="italic">"{log.note}"</div>
+                  <div className="text-slate-400">{log.author} • {log.time}</div>
+                  <div className="italic text-slate-700 dark:text-slate-300">"{log.note}"</div>
                 </div>
               ))}
             </div>
@@ -1585,7 +1527,7 @@ function CandidateResumeImproveStudio({ candidate, job, darkMode, showToast }) {
   if (!candidate) {
     return (
       <div className="p-12 max-w-xl mx-auto text-center space-y-4 pt-20">
-        <SparklesIcon size={36} className="mx-auto text-[#8A857C]" />
+        <SparklesIcon size={36} className="mx-auto text-slate-400" />
         <div className="font-display text-2xl">No Candidate Resume Loaded<span className="text-[#EE7564]">.</span></div>
       </div>
     );
@@ -1596,30 +1538,30 @@ function CandidateResumeImproveStudio({ candidate, job, darkMode, showToast }) {
   return (
     <div className="p-8 max-w-4xl mx-auto w-full space-y-6">
       <div>
-        <h1 className="font-display text-4xl tracking-tight text-[#111111] dark:text-[#F3F0EA]">
+        <h1 className={`font-display text-4xl tracking-tight ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
           Resume Improvement Studio<span className="text-[#EE7564]">.</span>
         </h1>
-        <p className="text-xs text-[#5B5852] mt-1">
-          Evidence-backed recommendations to strengthen your resume for <strong className="text-[#111111] dark:text-[#F3F0EA]">{job.title}</strong>
+        <p className="text-xs text-slate-500 mt-1">
+          Evidence-backed recommendations to strengthen your resume for <strong className={darkMode ? 'text-slate-100' : 'text-slate-900'}>{job.title}</strong>
         </p>
       </div>
 
       <div className="space-y-4">
         {missingReqs.map(r => (
-          <div key={r.id} className={`p-5 rounded-lg border space-y-3 ${darkMode ? 'bg-[#1A1918] border-[#262422]' : 'bg-white border-[#E3DFD7]'}`}>
+          <div key={r.id} className={`p-5 rounded-lg border space-y-3 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
             <div className="flex justify-between items-center">
-              <span className="font-bold text-sm text-[#111111] dark:text-[#F3F0EA]">{r.title}</span>
-              <span className="font-mono text-[10px] text-[#C8483B] uppercase font-bold">MISSING EVIDENCE</span>
+              <span className={`font-bold text-sm ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>{r.title}</span>
+              <span className="font-mono text-[10px] text-rose-600 uppercase font-bold">MISSING EVIDENCE</span>
             </div>
-            <p className="text-xs text-[#5B5852]">
+            <p className="text-xs text-slate-500">
               Recommendation: Add specific project or work experience bullet points detailing practical usage of {r.title}. Avoid listing it solely under skills.
             </p>
-            <div className="p-3 rounded bg-[#F6F4F0] dark:bg-[#151413] border-l-2 border-[#2F7D5B] font-serif text-xs text-[#111111] dark:text-[#F3F0EA]">
+            <div className="p-3 rounded bg-slate-50 dark:bg-slate-950 border-l-2 border-emerald-600 font-serif text-xs text-slate-900 dark:text-slate-100">
               Suggested Bullet: "Utilized {r.title} to analyze dataset patterns, optimize reporting workflows, and deliver actionable domain insights."
             </div>
             <button 
               onClick={() => showToast(`Added suggested bullet for "${r.title}".`)}
-              className="h-8 px-4 rounded-full bg-[#111111] dark:bg-[#F3F0EA] text-white dark:text-[#111111] text-xs font-semibold"
+              className="h-8 px-4 rounded-full bg-slate-900 text-white text-xs font-semibold"
             >
               Accept Suggestion →
             </button>
@@ -1627,7 +1569,7 @@ function CandidateResumeImproveStudio({ candidate, job, darkMode, showToast }) {
         ))}
 
         {missingReqs.length === 0 && (
-          <div className="p-8 rounded-lg border text-center font-serif text-sm text-[#2F7D5B]">
+          <div className="p-8 rounded-lg border text-center font-serif text-sm text-emerald-700 bg-emerald-50 border-emerald-200">
             All role expectations have direct or transferable evidence in your uploaded resume!
           </div>
         )}
@@ -1651,45 +1593,45 @@ function RequirementCard({ req, evidence, isSelected, onCardClick }) {
       onClick={onCardClick}
       className={`p-3.5 rounded-lg border transition-all cursor-pointer ${
         isMissing
-          ? 'border-[#C8483B]/40 bg-[#C8483B]/5'
+          ? 'border-rose-200 bg-rose-50/50'
           : isRelated
-            ? 'border-[#C98A1B]/40 bg-[#C98A1B]/5'
-            : 'border-[#2F7D5B]/40 bg-[#2F7D5B]/5'
+            ? 'border-amber-200 bg-amber-50/50'
+            : 'border-emerald-200 bg-emerald-50/50'
       } ${isSelected ? 'ring-2 ring-[#EE7564]' : ''}`}
     >
       <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="font-semibold text-xs text-[#111111] dark:text-[#F3F0EA]">
+        <div className="font-semibold text-xs text-slate-900">
           {req.title}
         </div>
         <span className={`shrink-0 font-mono text-[10px] uppercase px-2 py-0.5 rounded-full font-bold ${
           isMustHave 
-            ? isMissing ? 'bg-[#C8483B] text-white' : 'bg-[#111111] text-white dark:bg-[#F3F0EA] dark:text-[#111111]' 
-            : 'border text-[#8A857C]'
+            ? isMissing ? 'bg-rose-600 text-white' : 'bg-slate-900 text-white' 
+            : 'border border-slate-300 text-slate-600 bg-white'
         }`}>
           {isMustHave ? 'MANDATORY' : 'PREFERRED'}
         </span>
       </div>
 
-      <div className="flex items-center justify-between mb-2 pb-2 border-b border-[#E3DFD7]/60 text-[10px] font-mono font-bold">
-        <span className={isDirect ? 'text-[#2F7D5B]' : isRelated ? 'text-[#C98A1B]' : 'text-[#C8483B]'}>
+      <div className="flex items-center justify-between mb-2 pb-2 border-b border-slate-200/80 text-[10px] font-mono font-bold">
+        <span className={isDirect ? 'text-emerald-700' : isRelated ? 'text-amber-700' : 'text-rose-700'}>
           {bucketLabel}
         </span>
-        <span className={isDirect ? 'text-[#2F7D5B]' : isRelated ? 'text-[#C98A1B]' : 'text-[#C8483B]'}>
+        <span className={isDirect ? 'text-emerald-700' : isRelated ? 'text-amber-700' : 'text-rose-700'}>
           {strengthLabel}
         </span>
       </div>
 
       {evidence && evidence.quote && !isMissing ? (
-        <blockquote className="p-2.5 rounded bg-[#F6F4F0] dark:bg-[#151413] border-l-2 border-[#EE7564] font-serif text-xs italic">
+        <blockquote className="p-2.5 rounded bg-white border-l-2 border-[#EE7564] font-serif text-xs italic text-slate-800 shadow-2xs">
           "{evidence.quote}"
           {evidence.source && (
-            <cite className="block mt-1 font-sans not-italic text-[10px] text-[#8A857C]">
+            <cite className="block mt-1 font-sans not-italic text-[10px] text-slate-400">
               — Source: {evidence.source}
             </cite>
           )}
         </blockquote>
       ) : (
-        <div className="p-2.5 rounded bg-[#C8483B]/10 text-[#C8483B] text-[11px] font-mono">
+        <div className="p-2.5 rounded bg-rose-100/80 text-rose-800 text-[11px] font-mono">
           No direct evidence found in uploaded resume.
         </div>
       )}
@@ -1701,7 +1643,7 @@ function PersonalizedInterviewPrepView({ candidate, darkMode }) {
   if (!candidate || !candidate.interviewPrepQuestions) {
     return (
       <div className="p-12 max-w-xl mx-auto text-center space-y-4 pt-20">
-        <HelpCircleIcon size={36} className="mx-auto text-[#8A857C]" />
+        <HelpCircleIcon size={36} className="mx-auto text-slate-400" />
         <div className="font-display text-2xl">No Candidate Resume Loaded<span className="text-[#EE7564]">.</span></div>
       </div>
     );
@@ -1710,25 +1652,25 @@ function PersonalizedInterviewPrepView({ candidate, darkMode }) {
   return (
     <div className="p-8 max-w-4xl mx-auto w-full space-y-6">
       <div>
-        <h1 className="font-display text-4xl tracking-tight text-[#111111] dark:text-[#F3F0EA]">
+        <h1 className={`font-display text-4xl tracking-tight ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
           Personalized Interview Preparation<span className="text-[#EE7564]">.</span>
         </h1>
-        <p className="text-xs text-[#5B5852] mt-1">
+        <p className="text-xs text-slate-500 mt-1">
           Targeted technical questions based on your resume evidence and gap analysis.
         </p>
       </div>
 
       <div className="space-y-4">
         {candidate.interviewPrepQuestions.map((q, idx) => (
-          <div key={idx} className={`p-5 rounded-lg border space-y-2 ${darkMode ? 'bg-[#1A1918] border-[#262422]' : 'bg-white border-[#E3DFD7]'}`}>
+          <div key={idx} className={`p-5 rounded-lg border space-y-2 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
             <div className="flex justify-between items-center">
               <span className="font-mono text-xs font-bold text-[#EE7564]">{q.requirementTitle}</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#E4DEF5] text-[#111111] font-mono text-[10px] font-bold">{q.difficulty}</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-900 font-mono text-[10px] font-bold">{q.difficulty}</span>
             </div>
-            <div className="font-serif text-sm font-semibold text-[#111111] dark:text-[#F3F0EA]">
+            <div className={`font-serif text-sm font-semibold ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
               Q{idx + 1}: "{q.question}"
             </div>
-            <div className="text-xs text-[#8A857C] font-mono">Why this is asked: {q.reason}</div>
+            <div className="text-xs text-slate-400 font-mono">Why this is asked: {q.reason}</div>
           </div>
         ))}
       </div>
