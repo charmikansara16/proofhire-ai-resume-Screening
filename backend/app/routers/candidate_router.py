@@ -13,6 +13,17 @@ from app.report import generate_candidate_pdf_report
 
 router = APIRouter(prefix="/api/candidate", tags=["Candidate Mode"])
 
+@router.get("/generate-role")
+def get_generated_role(role: str = "Financial Analyst"):
+    """
+    Generate structured general role profile with clear categories:
+    Technical skills, Financial analysis knowledge, Accounting and financial statements,
+    Analytical tools, Financial modelling and forecasting, Education and experience.
+    """
+    from app.matcher import generate_general_role_profile
+    return generate_general_role_profile(role)
+
+
 @router.post("/analyze")
 async def analyze_candidate_resume(
     resume_file: Optional[UploadFile] = File(None),

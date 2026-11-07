@@ -1,105 +1,146 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import Header from './components/Header';
+import ResumeUploader from './components/ResumeUploader';
+import AnalysisDashboard from './components/AnalysisDashboard';
+import PhotoAnalyzer from './components/PhotoAnalyzer';
+import SkillGapChart from './components/SkillGapChart';
+import KaggleDatasetViewer from './components/KaggleDatasetViewer';
+import CandidateComparison from './components/CandidateComparison';
 import AuthModal from './components/AuthModal';
 
-// Candidate Mode Components
-import ResumeUploader from './components/CandidateMode/ResumeUploader';
-import EvidenceViewer from './components/CandidateMode/EvidenceViewer';
-import CandidateHistory from './components/CandidateMode/CandidateHistory';
-import PhotoAnalyzer from './components/PhotoAnalyzer';
-
-// Recruiter Mode Components
-import RecruiterDashboard from './components/RecruiterMode/RecruiterDashboard';
-import JobManager from './components/RecruiterMode/JobManager';
-import CandidateComparison from './components/RecruiterMode/CandidateComparison';
-import ResumeBatchUploader from './components/RecruiterMode/ResumeBatchUploader';
-
-import {
-  getCurrentUser,
-  clearAuthSession,
-  getProfile,
-  getJobs,
-  createJob,
-  analyzeResume,
-  getCandidateApplications,
-  getRecruiterDashboard,
-  getRecruiterCandidates
-} from './services/api';
+import { SAMPLE_CANDIDATES, SAMPLE_JOB_DESCRIPTIONS } from './services/sampleData';
+import { classifyResumeCategory, calculateJobMatch, extractExperience } from './services/nlpEngine';
+import { analyzeResume, getCurrentUser, clearAuthSession } from './services/api';
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState('evaluator'); // 'evaluator' | 'comparison' | 'dataset'
   const [mode, setMode] = useState('candidate'); // 'candidate' | 'recruiter'
-  const [activeTab, setActiveTab] = useState('evaluator'); // candidate: evaluator | history; recruiter: dashboard | leaderboard | jobs | upload
   const [user, setUser] = useState(getCurrentUser());
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalRole, setAuthModalRole] = useState('candidate');
+  const [blindMode, setBlindMode] = useState(false);
 
-  // Candidate State
-  const [jobs, setJobs] = useState([]);
-  const [selectedJobId, setSelectedJobId] = useState(null);
-  const [targetCategory, setTargetCategory] = useState('Data Science');
-  const [jobDescription, setJobDescription] = useState(
-    'Senior Machine Learning Scientist / AI Engineer\nRequirements: 3+ years experience with Python, PyTorch, Scikit-learn, SQL, and FastAPI. Experience with NLP, Large Language Models (LLM), and Docker.'
-  );
-  const [analysisResult, setAnalysisResult] = useState(null);
-  const [candidateApplications, setCandidateApplications] = useState([]);
+  // Active Candidate State
+  const [selectedCandidate, setSelectedCandidate] = useState(SAMPLE_CANDIDATES[0]);
+  const [targetCategory, setTargetCategory] = useState(SAMPLE_CANDIDATES[0].trueCategory);
+  const [jobDescription, setJobDescription] = useState(SAMPLE_JOB_DESCRIPTIONS['Data Science']);
+  const [photoMetrics, setPhotoMetrics] = useState(null);
+  const [customRequirements, setCustomRequirements] = useState([]);
   const [analyzing, setAnalyzing] = useState(false);
 
-  // Recruiter State
-  const [recruiterStats, setRecruiterStats] = useState(null);
-  const [recruiterCandidates, setRecruiterCandidates] = useState([]);
-  const [recruiterJobFilter, setRecruiterJobFilter] = useState(null);
-  const [loadingData, setLoadingData] = useState(false);
+  // Live Backend Analysis Result (if candidate ran backend analysis)
+  const [liveAnalysis, setLiveAnalysis] = useState(null);
 
-  // Initial Data Fetch
-  useEffect(() => {
-    loadJobs();
-    if (user) {
-      if (user.role === 'recruiter') {
-        loadRecruiterData();
-      } else {
-        loadCandidateHistory();
+  // Compute fallback NLP metrics if live analysis not yet run
+  const nlpAnalysis = useMemo(() => {
+    if (liveAnalysis?.predicted_category) {
+      return {
+        primaryCategory: liveAnalysis.predicted_category,
+        confidence: liveAnalysis.category_confidence || 92
+      };
+    }
+    return classifyResumeCategory(selectedCandidate.resumeText);
+  }, [selectedCandidate, liveAnalysis]);
+
+  const jobMatch = useMemo(() => {
+    if (liveAnalysis) {
+      return {
+        status: liveAnalysis.status,
+        matchPercentage: liveAnalysis.match_score,
+        match_score: liveAnalysis.match_score,
+        skills_score: liveAnalysis.skills_score,
+        scoring_formula: liveAnalysis.scoring_formula,
+        scoring_explanation: liveAnalysis.scoring_explanation,
+        totalMatchedCount: (liveAnalysis.direct_matches?.length || 0) + (liveAnalysis.transferable_skills?.length || 0),
+        totalMissingCount: liveAnalysis.missing_evidence?.length || 0,
+        matchedSkills: liveAnalysis.matched_skills || [],
+        missingSkills: liveAnalysis.missing_skills || [],
+        direct_matches: liveAnalysis.direct_matches || [],
+        transferable_skills: liveAnalysis.transferable_skills || [],
+        missing_evidence: liveAnalysis.missing_evidence || [],
+        recommendation: liveAnalysis.recommendation || 'Evaluated',
+        recommendationBadgeClass: liveAnalysis.recommendation_badge || 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
+        candidate_report: liveAnalysis.candidate_report,
+        recruiter_report: liveAnalysis.recruiter_report,
+        resume_sections: liveAnalysis.resume_sections
+      };
+    }
+    return calculateJobMatch(selectedCandidate.resumeText, jobDescription);
+  }, [selectedCandidate, jobDescription, liveAnalysis]);
+
+  const experienceInfo = useMemo(() => {
+    if (liveAnalysis?.experience_label) {
+      return { text: liveAnalysis.experience_label };
+    }
+    return extractExperience(selectedCandidate.resumeText);
+  }, [selectedCandidate, liveAnalysis]);
+
+  const handleCustomAnalyze = async (newCandidateData) => {
+    setAnalyzing(true);
+    try {
+      const formData = new FormData();
+      if (newCandidateData.file) {
+        formData.append('resume_file', newCandidateData.file);
+      } else if (newCandidateData.rawText) {
+        formData.append('raw_text', newCandidateData.rawText);
       }
-    }
-  }, [user]);
 
-  const loadJobs = async () => {
-    try {
-      const data = await getJobs();
-      setJobs(data);
-      if (data.length > 0 && !selectedJobId) {
-        // Pre-fill target category and description from first job if available
-        setSelectedJobId(data[0].id);
-        setJobDescription(data[0].description);
-        setTargetCategory(data[0].target_category || 'Data Science');
-      }
-    } catch (e) {
-      console.error("Failed to load jobs:", e);
-    }
-  };
+      formData.append('candidate_name', newCandidateData.name);
+      formData.append('candidate_email', newCandidateData.email || 'candidate@example.com');
+      formData.append('target_category', newCandidateData.roleTitle || targetCategory);
+      formData.append('job_description', jobDescription);
 
-  const loadCandidateHistory = async () => {
-    try {
-      const apps = await getCandidateApplications();
-      setCandidateApplications(apps);
-    } catch (e) {
-      console.error("Failed to load candidate applications:", e);
-    }
-  };
+      const result = await analyzeResume(formData);
+      setLiveAnalysis(result);
 
-  const loadRecruiterData = async () => {
-    setLoadingData(true);
-    try {
-      const [stats, cands] = await Promise.all([
-        getRecruiterDashboard(),
-        getRecruiterCandidates()
-      ]);
-      setRecruiterStats(stats);
-      setRecruiterCandidates(cands);
+      const newCandidate = {
+        id: result.application_id || `cand-${Date.now()}`,
+        applicationId: result.application_id,
+        name: newCandidateData.name,
+        photoUrl: newCandidateData.photoUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+        trueCategory: newCandidateData.roleTitle || targetCategory,
+        experienceYears: result.experience_years_detected || 3,
+        email: newCandidateData.email || 'candidate@example.com',
+        location: 'Remote / Direct Submission',
+        summary: result.summary || (newCandidateData.rawText ? newCandidateData.rawText.substring(0, 180) + '...' : 'Candidate profile with verified resume credentials.'),
+        resumeText: newCandidateData.rawText || '',
+        resumeSections: result.resume_sections || null,
+        photoMetrics: null
+      };
+
+      setSelectedCandidate(newCandidate);
+      setTargetCategory(newCandidateData.roleTitle || targetCategory);
+      setPhotoMetrics(null);
     } catch (e) {
-      console.error("Failed to load recruiter data:", e);
+      console.error("Backend analysis error, falling back to client engine:", e);
+      // Fallback to client NLP analysis
+      const newCandidate = {
+        id: `custom-${Date.now()}`,
+        name: newCandidateData.name,
+        photoUrl: newCandidateData.photoUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+        trueCategory: newCandidateData.roleTitle || targetCategory,
+        experienceYears: 3,
+        email: newCandidateData.email || 'candidate@example.com',
+        location: 'Remote',
+        summary: newCandidateData.rawText ? newCandidateData.rawText.substring(0, 180) + '...' : 'Uploaded Candidate',
+        resumeText: newCandidateData.rawText || '',
+        photoMetrics: null
+      };
+      setSelectedCandidate(newCandidate);
+      setLiveAnalysis(null);
     } finally {
-      setLoadingData(false);
+      setAnalyzing(false);
     }
+  };
+
+  const handleSelectFromLeaderboard = (cand) => {
+    setSelectedCandidate(cand);
+    setLiveAnalysis(null);
+    setTargetCategory(cand.trueCategory);
+    if (SAMPLE_JOB_DESCRIPTIONS[cand.trueCategory]) {
+      setJobDescription(SAMPLE_JOB_DESCRIPTIONS[cand.trueCategory]);
+    }
+    setActiveTab('evaluator');
   };
 
   const handleOpenAuth = (role = 'candidate') => {
@@ -107,202 +148,109 @@ export default function App() {
     setAuthModalOpen(true);
   };
 
-  const handleAuthSuccess = (authenticatedUser) => {
-    setUser(authenticatedUser);
-    if (authenticatedUser.role === 'recruiter') {
-      setMode('recruiter');
-      setActiveTab('dashboard');
-    } else {
-      setMode('candidate');
-      setActiveTab('evaluator');
-    }
-  };
-
   const handleLogout = () => {
     clearAuthSession();
     setUser(null);
     setMode('candidate');
-    setActiveTab('evaluator');
-    setCandidateApplications([]);
-    setRecruiterCandidates([]);
-    setRecruiterStats(null);
-  };
-
-  const handleAnalyzeResume = async (formData) => {
-    setAnalyzing(true);
-    try {
-      const result = await analyzeResume(formData);
-      setAnalysisResult(result);
-      if (user && user.role === 'candidate') {
-        loadCandidateHistory();
-      }
-    } catch (err) {
-      alert(err.message || "Failed to analyze resume.");
-    } finally {
-      setAnalyzing(false);
-    }
-  };
-
-  const handleCreateJob = async (jobData) => {
-    await createJob(jobData);
-    await loadJobs();
-    if (user && user.role === 'recruiter') {
-      await loadRecruiterData();
-    }
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
-      
       {/* Top sticky navigation */}
-      <Header
+      <Header 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
         mode={mode}
         setMode={setMode}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
         user={user}
-        onOpenAuth={() => handleOpenAuth(mode)}
+        onOpenAuth={handleOpenAuth}
         onLogout={handleLogout}
       />
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        {/* CANDIDATE MODE */}
-        {mode === 'candidate' && (
-          <>
-            {activeTab === 'evaluator' && (
-              <div className="space-y-8 animate-fade-in">
-                <ResumeUploader
-                  jobs={jobs}
-                  onAnalyze={handleAnalyzeResume}
-                  loading={analyzing}
-                  targetCategory={targetCategory}
-                  setTargetCategory={setTargetCategory}
-                  jobDescription={jobDescription}
-                  setJobDescription={setJobDescription}
-                  selectedJobId={selectedJobId}
-                  setSelectedJobId={setSelectedJobId}
-                />
+        {/* Tab 1: Live Candidate Evaluator */}
+        {activeTab === 'evaluator' && (
+          <div className="space-y-8">
+            <ResumeUploader
+              selectedCandidate={selectedCandidate}
+              setSelectedCandidate={setSelectedCandidate}
+              targetCategory={targetCategory}
+              setTargetCategory={setTargetCategory}
+              jobDescription={jobDescription}
+              setJobDescription={setJobDescription}
+              onCustomAnalyze={handleCustomAnalyze}
+              mode={mode}
+              analyzing={analyzing}
+              customRequirements={customRequirements}
+              setCustomRequirements={setCustomRequirements}
+            />
 
-                {analysisResult && (
-                  <EvidenceViewer analysis={analysisResult} />
-                )}
-              </div>
-            )}
+            <AnalysisDashboard
+              candidate={selectedCandidate}
+              nlpAnalysis={nlpAnalysis}
+              jobMatch={jobMatch}
+              photoMetrics={photoMetrics}
+              experienceInfo={experienceInfo}
+              mode={mode}
+              user={user}
+              blindMode={blindMode}
+              setBlindMode={setBlindMode}
+            />
 
-            {activeTab === 'history' && (
-              <div className="animate-fade-in">
-                {user ? (
-                  <CandidateHistory
-                    applications={candidateApplications}
-                    onSelectApplication={(app) => {
-                      setAnalysisResult(app);
-                      setActiveTab('evaluator');
-                    }}
-                  />
-                ) : (
-                  <div className="glass-panel rounded-2xl p-12 text-center border border-slate-800">
-                    <h3 className="text-base font-bold text-white mb-2">Sign In to View Application History</h3>
-                    <p className="text-xs text-slate-400 max-w-md mx-auto mb-4">
-                      Create a free candidate account to securely preserve your evaluated resumes, evidence breakdowns, and downloadable PDF reports.
-                    </p>
-                    <button
-                      onClick={() => handleOpenAuth('candidate')}
-                      className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-md glow-primary transition-all"
-                    >
-                      Sign In / Register as Candidate
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <PhotoAnalyzer
+                candidate={selectedCandidate}
+                photoMetrics={photoMetrics}
+                setPhotoMetrics={setPhotoMetrics}
+                resumeSections={jobMatch?.resume_sections}
+              />
+              <SkillGapChart jobMatch={jobMatch} />
+            </div>
+          </div>
         )}
 
-        {/* RECRUITER MODE */}
-        {mode === 'recruiter' && (
-          <>
-            {!user || user.role !== 'recruiter' ? (
-              <div className="glass-panel rounded-2xl p-12 text-center border border-slate-800 animate-fade-in max-w-xl mx-auto">
-                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-xl">🏢</span>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">
-                  Recruiter & Organization Access Required
-                </h3>
-                <p className="text-xs text-slate-400 mb-6 leading-relaxed">
-                  ProofHire Recruiter Mode enforces multi-tenant organization data isolation. Sign in or register your organization to manage job postings, review ranked leaderboards, and audit hiring decisions.
-                </p>
-                <div className="flex justify-center gap-3">
-                  <button
-                    onClick={() => handleOpenAuth('recruiter')}
-                    className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-purple-600 hover:bg-purple-500 shadow-md glow-accent transition-all"
-                  >
-                    Register / Sign In as Recruiter
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-8 animate-fade-in">
-                {activeTab === 'dashboard' && (
-                  <RecruiterDashboard
-                    stats={recruiterStats}
-                    orgName={user.organization_name}
-                    onNavigate={(tab) => setActiveTab(tab)}
-                  />
-                )}
+        {/* Tab 2: Leaderboard */}
+        {activeTab === 'comparison' && (
+          <CandidateComparison
+            onSelectCandidate={handleSelectFromLeaderboard}
+            targetCategory={targetCategory}
+            mode={mode}
+            user={user}
+            blindMode={blindMode}
+          />
+        )}
 
-                {activeTab === 'leaderboard' && (
-                  <CandidateComparison
-                    candidates={recruiterCandidates}
-                    jobs={jobs}
-                    selectedJobId={recruiterJobFilter}
-                    setSelectedJobId={setRecruiterJobFilter}
-                    onRefresh={loadRecruiterData}
-                    loading={loadingData}
-                  />
-                )}
-
-                {activeTab === 'jobs' && (
-                  <JobManager
-                    jobs={jobs}
-                    onCreateJob={handleCreateJob}
-                    loading={loadingData}
-                  />
-                )}
-
-                {activeTab === 'upload' && (
-                  <ResumeBatchUploader
-                    jobs={jobs}
-                    onUploadSuccess={() => {
-                      loadRecruiterData();
-                      setActiveTab('leaderboard');
-                    }}
-                  />
-                )}
-              </div>
-            )}
-          </>
+        {/* Tab 3: Kaggle Dataset Specs */}
+        {activeTab === 'dataset' && (
+          <KaggleDatasetViewer />
         )}
 
       </main>
 
-      {/* Auth Modal */}
+      {/* Footer */}
+      <footer className="border-t border-slate-900 bg-slate-950 py-6 mt-12 text-center text-xs text-slate-400">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© 2026 ProofHire • AI Resume Intelligence & Evidence-Based Screening System</p>
+          <p className="text-slate-400">
+            Powered by Scikit-Learn NLP benchmarks & Kaggle Resume Dataset
+          </p>
+        </div>
+      </footer>
+
+      {/* Authentication Modal */}
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         initialRole={authModalRole}
-        onAuthSuccess={handleAuthSuccess}
+        onAuthSuccess={(u) => {
+          setUser(u);
+          if (u.role === 'recruiter') {
+            setMode('recruiter');
+          }
+        }}
       />
-
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-6 mt-16">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-          ProofHire AI Resume Intelligence Platform • Production Portfolio • Built with FastAPI, PostgreSQL, and React
-        </div>
-      </footer>
-
     </div>
   );
 }

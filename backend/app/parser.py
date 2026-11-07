@@ -127,3 +127,65 @@ async def save_and_parse_resume_file(upload_file: UploadFile) -> tuple[str, str,
         )
 
     return extracted_text, storage_path, orig_filename
+
+def extract_resume_sections(text: str) -> dict:
+    """
+    Separate extracted resume content into:
+    - Professional Summary
+    - Education
+    - Technical Skills
+    - Projects
+    - Experience
+    - Internships
+    - Certifications
+    Preserves the original resume text and its source evidence.
+    """
+    section_patterns = {
+        "summary": r"(?:^|\n)\s*(?:professional\s+summary|executive\s+summary|summary|profile|about\s+me|career\s+objective|objective)\b",
+        "skills": r"(?:^|\n)\s*(?:technical\s+skills|core\s+competencies|skills\s*(?:&|and)?\s*abilities|skills|technologies|tools\s*(?:&|and)?\s*frameworks)\b",
+        "experience": r"(?:^|\n)\s*(?:professional\s+experience|work\s+experience|work\s+history|employment\s+history|experience)\b",
+        "projects": r"(?:^|\n)\s*(?:projects|key\s+projects|technical\s+projects|personal\s+projects|academic\s+projects)\b",
+        "education": r"(?:^|\n)\s*(?:education|academic\s+background|academic\s+qualifications|degrees|educational\s+history)\b",
+        "internships": r"(?:^|\n)\s*(?:internships|internship\s+experience|industrial\s+training|practical\s+training)\b",
+        "certifications": r"(?:^|\n)\s*(?:certifications|licenses\s*(?:&|and)?\s*certifications|certifications\s*(?:&|and)?\s*licenses|certificates|credentials)\b",
+    }
+
+    # Find starting index of each section
+    matches = []
+    for sec_name, pattern in section_patterns.items():
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            matches.append((match.start(), sec_name, match.group(0)))
+
+    # Sort matches by position in text
+    matches.sort(key=lambda x: x[0])
+
+    sections = {
+        "summary": "",
+        "education": "",
+        "skills": "",
+        "projects": "",
+        "experience": "",
+        "internships": "",
+        "certifications": "",
+        "raw_text": text
+    }
+
+    if not matches:
+        # Fallback: if no headings identified, provide raw text in summary
+        sections["summary"] = text[:500].strip()
+        return sections
+
+    for i in range(len(matches)):
+        start_idx, sec_name, heading = matches[i]
+        # Text starts after heading
+        content_start = start_idx + len(heading)
+        content_end = matches[i + 1][0] if (i + 1) < len(matches) else len(text)
+        content = text[content_start:content_end].strip()
+        if content:
+            if sections[sec_name]:
+                sections[sec_name] += "\n\n" + content
+            else:
+                sections[sec_name] = content
+
+    return sections
+

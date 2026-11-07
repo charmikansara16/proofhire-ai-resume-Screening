@@ -108,9 +108,14 @@ export async function getCandidateApplications() {
   return request('/api/candidate/applications');
 }
 
+export async function generateGeneralRole(role = 'Financial Analyst') {
+  return request(`/api/candidate/generate-role?role=${encodeURIComponent(role)}`);
+}
+
 export function getCandidatePdfUrl(appId) {
   return `${API_BASE}/api/candidate/applications/${appId}/pdf`;
 }
+
 
 // --- Job Endpoints ---
 export async function getJobs(organizationId = null, category = null) {

@@ -66,3 +66,69 @@ def test_experience_extraction_regex():
     text2 = "Software Engineer (2019 - 2024)"
     years2, label2 = extract_years_of_experience(text2)
     assert years2 == 5.0
+
+def test_financial_analyst_general_role_profile():
+    from app.matcher import generate_general_role_profile
+    profile = generate_general_role_profile("Financial Analyst")
+    assert profile["role_type"] == "general_role_expectation"
+    category_ids = [c["category_id"] for c in profile["categories"]]
+    assert "technical_skills" in category_ids
+    assert "financial_analysis" in category_ids
+    assert "accounting_statements" in category_ids
+    assert "analytical_tools" in category_ids
+    assert "financial_modelling" in category_ids
+    assert "education_experience" in category_ids
+    assert "General role expectations, not company-specific requirements." in profile["disclaimer"]
+
+def test_transferable_analytical_skills_rule():
+    from app.matcher import match_resume_to_job
+    # Candidate with Python and SQL applying for Financial Analyst role
+    resume_with_python = """
+    Jane Doe
+    Financial Analyst Candidate
+    Summary: Experienced quantitative specialist with 3 years using Python, SQL, and Excel for data analysis and variance reporting.
+    Experience:
+    - Analyzed financial transactions using Python and SQL to identify anomalies.
+    - Built Excel models for monthly revenue tracking.
+    """
+    jd = "Financial Analyst role. Core requirements: DCF Valuation, Financial Modeling, Accounting, Python."
+    result = match_resume_to_job(
+        resume_text=resume_with_python,
+        job_description=jd,
+        required_skills=["DCF Valuation", "Financial Modeling", "Accounting", "Python"]
+    )
+    # Python must be labeled transferable, or if matched must NOT be direct financial expertise
+    requirements = result["requirements"]
+    python_req = next((r for r in requirements if r["name"] == "Python"), None)
+    if python_req:
+        assert python_req["match_status"] == "transferable_skill" or "transferable" in python_req["match_type_label"].lower() or "transferable" in python_req["explanation"].lower()
+
+def test_analysis_incomplete_on_empty_resume():
+    from app.matcher import match_resume_to_job
+    result = match_resume_to_job(resume_text="", job_description="Some role")
+    assert result["status"] == "Analysis Incomplete"
+    assert result["match_score"] is None
+
+def test_section_extraction():
+    from app.parser import extract_resume_sections
+    resume = """
+    Jane Doe
+    Professional Summary:
+    Energetic Software Engineer with 4 years experience.
+    Technical Skills:
+    Python, React, Docker, SQL.
+    Professional Experience:
+    Software Developer at TechCorp.
+    Education:
+    B.S. in Computer Science.
+    Certifications:
+    AWS Certified Solutions Architect.
+    """
+    sections = extract_resume_sections(resume)
+    assert "summary" in sections
+    assert "skills" in sections
+    assert "experience" in sections
+    assert "education" in sections
+    assert "certifications" in sections
+    assert "Python" in sections["skills"]
+
